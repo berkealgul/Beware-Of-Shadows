@@ -47,7 +47,7 @@ public class Darkness : MonoBehaviour
 
     void ExecuteDestroy()
     {
-        Debug.Log("Destroyed");
+        //Debug.Log("Destroyed");
     }
 
     void ExecuteReturn()

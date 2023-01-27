@@ -24,5 +24,5 @@ public class Generator : MonoBehaviour
         energy = Mathf.Max(energy - stolenAmount, 0);
     }
 
-    
+    public float GetEnergy() { return energy; }
 }
