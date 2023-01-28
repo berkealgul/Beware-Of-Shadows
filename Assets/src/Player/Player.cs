@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         timeToInteract = delayToInteract;
 
         var casts = Physics2D.RaycastAll(gameObject.transform.position, new Vector2(1, 0), 1);
-        //Debug.DrawRay(gameObject.transform.position, new Vector2(1, 0), Color.red, 1);
+        //Debug.DrawRay(gameObject.transform.position, new Vector2(1, 0), Color.red, 0.2f);
         foreach (var c in casts)
         {
             if (c.collider.tag == "Generator")

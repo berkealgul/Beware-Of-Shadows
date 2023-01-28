@@ -17,9 +17,13 @@ public class DarknessManager : MonoBehaviour
     [Min(0.1f)]
     public float particleRotDuration = 5;
     [Min(1)]
+    public float particleMinRotSpeed = 30; // deg / sec
+    [Min(10)]
     public float particleMaxRotSpeed = 50; // deg / sec
     [Min(0.1f)]
     public float particleRotationRadius = 5;
+    [Range(0.02f, 1)]
+    public float particleAddDelay = 0.2f;
     [Min(4)]
     public int rotatingParticleCount = 4;
 
@@ -51,9 +55,13 @@ public class DarknessManager : MonoBehaviour
 
     bool active = false;
 
+    Vector3 mapCenter;
+
     void Start() 
     {
+        mapCenter = new Vector3(0, 0, 0); // temporary
         Init();
+        SwitchRoom();
     }
 
     void Update()
@@ -100,7 +108,7 @@ public class DarknessManager : MonoBehaviour
     void AttackToGenerator(GameObject gen)
     {
         int spawns = Random.Range(1, maxSpawn + 1);
-        Vector2 spawnDir = gen.transform.position.normalized;
+        Vector2 spawnDir = (gen.transform.position - mapCenter).normalized;  
 
         for(int i = 0; i < spawns; i++)
         {
@@ -117,8 +125,6 @@ public class DarknessManager : MonoBehaviour
     void SwitchRoom()
     {
         StartCoroutine(AninamateRoomSwitch());
-
-
     }
 
     IEnumerator AninamateRoomSwitch()
@@ -136,16 +142,25 @@ public class DarknessManager : MonoBehaviour
     {
         for(int i = 0; i < rotatingParticleCount; i++)
         {
-            //Instantiate()
+            rotatingParticles.Add(InstanciateRotatingParticle());
+            yield return new WaitForSeconds(particleAddDelay);
         }
 
-        float time = 0;
+        yield return new WaitForSeconds(particleRotDuration);
+    }
 
-        // particle rotation phrase
-        while(time < particleRotDuration)
-        {
-            yield return null;
-        }
+    IEnumerator AnimateCamera()
+    {
+        yield return null;
+    }
+
+    GameObject InstanciateRotatingParticle()
+    {
+        var particle = Instantiate(rotatingParticlePrefab);
+        particle.GetComponent<RotatingDarkness>().SetCenter(mapCenter);
+        particle.GetComponent<RotatingDarkness>().SetPolar(Random.Range(0, 2*Mathf.PI), particleRotationRadius);
+        particle.GetComponent<RotatingDarkness>().SetSpeed(Random.Range(particleMinRotSpeed, particleMaxRotSpeed));
+        return particle;
     }
 
     Vector2 RotateVector(Vector2 v, float angle)
