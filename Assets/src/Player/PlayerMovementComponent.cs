@@ -57,15 +57,23 @@ public class PlayerMovementComponent : MonoBehaviour
         float time = 0;
         float start_x = transform.position.x;
         float start_y = transform.position.y;
+        float x = 0;
+        float y = 0;
 
         while(time < movementDuration && time >= 0)
         {
-            float x = Mathf.Lerp(start_x, start_x + movementLength * x_dir, movementCurve.Evaluate(time / movementDuration));
-            float y = Mathf.Lerp(start_y, start_y + movementLength * y_dir, movementCurve.Evaluate(time / movementDuration));
+            x = Mathf.Lerp(start_x, start_x + movementLength * x_dir, movementCurve.Evaluate(time / movementDuration));
+            y = Mathf.Lerp(start_y, start_y + movementLength * y_dir, movementCurve.Evaluate(time / movementDuration));
+
             transform.position = new Vector3(x, y, 0);
             time += Time.unscaledDeltaTime * anim_dir;
             yield return null;
         }
+
+        //snap to grid (.5)
+        x = Mathf.Round(x + 0.5f) - 0.5f;
+        y = Mathf.Round(y + 0.5f) - 0.5f;
+        transform.position = new Vector3(x, y, 0);
 
         canMove = true;
     }
