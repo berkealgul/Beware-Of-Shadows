@@ -14,7 +14,7 @@ public class PlayerMovementComponent : MonoBehaviour
     bool canMove = true;
     float x_dir = 0;
     float y_dir = 0;
-
+    float anim_dir = 1;
 
     void Update()
     {
@@ -39,20 +39,27 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collided");
+        anim_dir = -1;
+    }
+
     IEnumerator AnimateMovement()
     {
         canMove = false;
+        anim_dir = 1;
 
         float time = 0;
         float start_x = transform.position.x;
         float start_y = transform.position.y;
 
-        while(time < movementDuration)
+        while(time < movementDuration && time >= 0)
         {
             float x = Mathf.Lerp(start_x, start_x + movementLength * x_dir, movementCurve.Evaluate(time / movementDuration));
             float y = Mathf.Lerp(start_y, start_y + movementLength * y_dir, movementCurve.Evaluate(time / movementDuration));
             transform.position = new Vector3(x, y, 0);
-            time += Time.deltaTime;
+            time += Time.deltaTime * anim_dir;
             yield return null;
         }
 
