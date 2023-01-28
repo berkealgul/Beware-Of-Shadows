@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DarknessManager : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class DarknessManager : MonoBehaviour
     [Min(10)]
     public float timeBetweenRoomSwitch = 50;
 
+    float timeToPlayerAttack;
+    float timeToGenAttack;
+    float timeToRoomSwitch;
+
     [Header("Room Switch")]
     [Min(0.1f)]
     public float particleRotDuration = 5;
@@ -22,13 +27,21 @@ public class DarknessManager : MonoBehaviour
     public float particleMaxRotSpeed = 50; // deg / sec
     [Min(0.1f)]
     public float particleRotationRadius = 5;
-    [Range(0.02f, 1)]
-    public float particleAddDelay = 0.2f;
     [Min(4)]
     public int rotatingParticleCount = 4;
+    [Range(0.02f, 1)]
+    public float particleAddDelay = 0.2f;
+    [Range(0, 1)]
+    public float zoomPercentage = 0.5f;
+    [Min(0.02f)]
+    public float zoomDuration = 2f;
+    [Min(0.02f)]
+    public float blackoutDuration = 2f;
 
-    public AnimationCurve particleRotSpeed;
-
+    public AnimationCurve cameraZoomCurve;
+    public AnimationCurve blackoutCurve;
+    public Camera camera;
+    public Image blackout;
     public GameObject rotatingParticlePrefab;
 
     [Header("Darkness Spawn")]
@@ -45,10 +58,6 @@ public class DarknessManager : MonoBehaviour
     List<GameObject> rotatingParticles;
     GameObject[] generators;
 
-    float timeToPlayerAttack;
-    float timeToGenAttack;
-    float timeToRoomSwitch;
-
     float doomMeter = 1;
     float difficulty = 1;
     float maxEnergy;
@@ -61,7 +70,7 @@ public class DarknessManager : MonoBehaviour
     {
         mapCenter = new Vector3(0, 0, 0); // temporary
         Init();
-        SwitchRoom();
+        StartCoroutine(RoomSwitch()); // tem
     }
 
     void Update()
@@ -75,7 +84,7 @@ public class DarknessManager : MonoBehaviour
         // switch room
         if(timeToRoomSwitch <= 0)
         {
-            SwitchRoom();
+            StartCoroutine(RoomSwitch());
             timeToRoomSwitch = timeBetweenRoomSwitch;
         }
 
@@ -122,19 +131,67 @@ public class DarknessManager : MonoBehaviour
         }
     }
 
-    void SwitchRoom()
-    {
-        StartCoroutine(AninamateRoomSwitch());
-    }
-
-    IEnumerator AninamateRoomSwitch()
+    IEnumerator RoomSwitch()
     {
         yield return StartCoroutine(AninamateParticleRotation());
+        yield return StartCoroutine(AnimatePreSwitch());
+        // switch room
 
-        // cleanup after animations
+        // cleanup 
         foreach (GameObject rotP in rotatingParticles)
         {
             Destroy(rotP);
+        }
+
+        yield return StartCoroutine(AnimateAfterSwitch()); // back to normal
+    }
+    IEnumerator AnimatePreSwitch()
+    {
+        float initalCameraFOV = camera.fieldOfView;
+        float time = 0;
+        while(time < zoomDuration)
+        {
+            camera.fieldOfView = Mathf.Lerp(initalCameraFOV, initalCameraFOV * (1 + zoomPercentage), cameraZoomCurve.Evaluate(time / zoomDuration));
+            time += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        time = 0;
+        while (time < blackoutDuration)
+        {
+            float a = Mathf.Lerp(0, 255, blackoutCurve.Evaluate(time / blackoutDuration));
+            blackout.color = new Color(blackout.color.r, blackout.color.g, blackout.color.b, a);
+            time += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
+    IEnumerator AnimateAfterSwitch()
+    {
+        float initalCameraFOV = camera.fieldOfView;
+        float time = 0;
+
+        while (time < blackoutDuration)
+        {
+            float a = Mathf.Lerp(255, 0, blackoutCurve.Evaluate(time / blackoutDuration));
+            blackout.color = new Color(blackout.color.r, blackout.color.g, blackout.color.b, a);
+            time += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        blackout.color = new Color(blackout.color.r, blackout.color.g, blackout.color.b, 0);
+
+        yield return new WaitForSeconds(0.3f);
+
+        time = 0;
+
+        while (time < zoomDuration)
+        {
+            camera.fieldOfView = Mathf.Lerp(initalCameraFOV, initalCameraFOV / (1 + zoomPercentage), cameraZoomCurve.Evaluate(time / zoomDuration));
+            time += Time.unscaledDeltaTime;
+            yield return null;
         }
     }
 
@@ -147,11 +204,6 @@ public class DarknessManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(particleRotDuration);
-    }
-
-    IEnumerator AnimateCamera()
-    {
-        yield return null;
     }
 
     GameObject InstanciateRotatingParticle()
@@ -177,7 +229,6 @@ public class DarknessManager : MonoBehaviour
 
         return new Vector2(_x2, _y2); 
     }
-
 
     float CalculateTotalEnergy()
     {
