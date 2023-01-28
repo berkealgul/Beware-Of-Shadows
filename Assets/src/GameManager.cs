@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    float gameStartTime;
+    [Range(1, 10)]
+    public float timeScale = 1;
+    [Min(60)]
+    public float totalPlayingTime = 600; 
+
+    float playingTime;
+    float doomPer;
 
     DarknessManager dm;
-
-
-
 
     void Start()
     {
@@ -18,16 +21,39 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        doomPer = dm.CalculateDoomPercentage();
 
+        playingTime += Time.deltaTime;
+
+        int mins = (int)playingTime / 60;
+
+        //Debug.Log(playingTime);
+        //Debug.Log(mins);
+
+        if(Lose())
+        {
+            //Debug.Log("LOSE");
+        }
+        
+        if(Win())
+        {
+           // Debug.Log("Win");
+        }
+        else
+        {
+            //Debug.Log(doomPer);
+        }
+
+        Time.timeScale = timeScale; // will be carried to Start()
     }
 
-    void StartGame()
+    bool Lose() 
     {
-        gameStartTime = Time.time;
+        return doomPer <= 0;
     }
 
-    bool isGameOver() 
+    bool Win()
     {
-        return dm.CalculateDoomPercentage() <= 0;
+        return playingTime >= totalPlayingTime;
     }
 }

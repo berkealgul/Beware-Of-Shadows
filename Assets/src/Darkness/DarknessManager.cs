@@ -53,7 +53,7 @@ public class DarknessManager : MonoBehaviour
 
     void Start() 
     {
-        init();
+        Init();
     }
 
     void Update()
@@ -86,7 +86,7 @@ public class DarknessManager : MonoBehaviour
         }
     }
 
-    void init()
+    void Init()
     {
         generators = GameObject.FindGameObjectsWithTag("Generator");
         rotatingParticles = new List<GameObject>();
