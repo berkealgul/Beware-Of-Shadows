@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class FlashlightComponent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Min(1)]
+    public float hitDamage = 5;
+
+    bool active = true;
+
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if(!active) { return; }
+
+        if(collision.tag == "Darkness")
+        {
+            collision.GetComponent<Darkness>().Damage(hitDamage);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Activate() { active = true; }
+    public void Deactivate() { active = false; }
 }

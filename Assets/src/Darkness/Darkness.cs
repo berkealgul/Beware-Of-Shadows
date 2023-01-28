@@ -53,6 +53,11 @@ public class Darkness : MonoBehaviour
         state = State.REACH;
     }
 
+    public void Damage(float dmg)
+    {
+        Debug.Log("Damaged");
+    }
+
     void ExecuteDestroy()
     {
         //Debug.Log("Destroyed");

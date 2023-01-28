@@ -41,7 +41,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collided");
         anim_dir = -1;
     }
 
