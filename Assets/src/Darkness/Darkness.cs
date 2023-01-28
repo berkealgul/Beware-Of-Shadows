@@ -11,18 +11,19 @@ public class Darkness : MonoBehaviour
     [Min(0)]
     public float v = 5;
 
-    public GameObject targetObject;
-
     Vector3 targetPos;
     Vector3 spawnPos;
-    State state;
-    bool attacked = false;
 
-    void Start()
+    GameObject targetObject;
+    State state;
+
+    bool attacked = false;
+    float energySteal = 50;
+
+    private void Awake()
     {
-        spawnPos = transform.position;
-        targetPos = targetObject.transform.position;
-        state = State.REACH;
+        spawnPos = gameObject.transform.position;
+        state = State.IDLE;
         attacked = false;
     }
 
@@ -45,9 +46,17 @@ public class Darkness : MonoBehaviour
         }
     }
 
+    public void SetTarget(GameObject target)
+    {
+        targetObject = target;
+        targetPos = target.transform.position;
+        state = State.REACH;
+    }
+
     void ExecuteDestroy()
     {
         //Debug.Log("Destroyed");
+        Destroy(gameObject);
     }
 
     void ExecuteReturn()
@@ -62,7 +71,7 @@ public class Darkness : MonoBehaviour
 
         if(dis.magnitude <= distanceToReach)
         {
-            if(attacked) // temporary
+            if(attacked) 
                 state = State.DESTROY;
             else
                 state = State.ATTACK;
@@ -75,8 +84,7 @@ public class Darkness : MonoBehaviour
 
     void ExecuteAttack()
     {
-        Debug.Log("Attack");
-        targetObject.GetComponent<Generator>().StealEnergy(50);
+        targetObject.GetComponent<Generator>().StealEnergy(energySteal);
         state = State.RETURN;
         attacked = true;
     }
