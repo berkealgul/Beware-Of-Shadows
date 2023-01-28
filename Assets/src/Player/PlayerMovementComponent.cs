@@ -63,7 +63,7 @@ public class PlayerMovementComponent : MonoBehaviour
             float x = Mathf.Lerp(start_x, start_x + movementLength * x_dir, movementCurve.Evaluate(time / movementDuration));
             float y = Mathf.Lerp(start_y, start_y + movementLength * y_dir, movementCurve.Evaluate(time / movementDuration));
             transform.position = new Vector3(x, y, 0);
-            time += Time.deltaTime * anim_dir;
+            time += Time.unscaledDeltaTime * anim_dir;
             yield return null;
         }
 

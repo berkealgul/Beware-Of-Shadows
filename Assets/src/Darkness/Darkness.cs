@@ -84,7 +84,7 @@ public class Darkness : MonoBehaviour
             return;
         }
 
-        transform.position += dis.normalized * v * Time.deltaTime;
+        transform.position += dis.normalized * v * Time.unscaledDeltaTime;
     }
 
     void ExecuteAttack()
