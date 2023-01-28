@@ -19,6 +19,11 @@ public class Generator : MonoBehaviour
         energy = Mathf.Max(energy - Time.deltaTime*energyDecay, 0);
     }
 
+    public void Fix()
+    {
+        Debug.Log("FIX");
+    }
+
     public void StealEnergy(float stolenAmount)
     {
         energy = Mathf.Max(energy - stolenAmount, 0);
