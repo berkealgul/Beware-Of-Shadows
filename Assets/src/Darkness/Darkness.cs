@@ -9,7 +9,13 @@ public class Darkness : MonoBehaviour
     static readonly float distanceToReach = 0.01f; // meters
 
     [Min(0)]
+    public float damageDelay = 0.1f;
+    [Min(0)]
     public float v = 5;
+    [Min(0)]
+    public float energySteal = 5;
+    [Min(1)]
+    public float hp = 100;
 
     Vector3 targetPos;
     Vector3 spawnPos;
@@ -18,7 +24,7 @@ public class Darkness : MonoBehaviour
     State state;
 
     bool attacked = false;
-    float energySteal = 50;
+    float timeToDmg = 0;
 
     private void Awake()
     {
@@ -55,7 +61,17 @@ public class Darkness : MonoBehaviour
 
     public void Damage(float dmg)
     {
-        Debug.Log("Damaged");
+        timeToDmg -= Time.unscaledTime;
+
+        if (timeToDmg > 0) { return; }
+
+        timeToDmg = damageDelay;
+        hp -= dmg;
+
+        if(hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void ExecuteDestroy()
