@@ -11,6 +11,8 @@ public class PlayerMovementComponent : MonoBehaviour
     [Range(0.1f , 1)]
     public float movementDuration = 0.2f; // in seconds
 
+    public List<string> walkableTags; 
+
     bool canMove = true;
     float x_dir = 0;
     float y_dir = 0;
@@ -41,7 +43,10 @@ public class PlayerMovementComponent : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        anim_dir = -1;
+        if(!walkableTags.Contains(collision.tag))
+        {
+            anim_dir = -1;
+        }
     }
 
     IEnumerator AnimateMovement()
