@@ -125,11 +125,10 @@ public class DarknessManager : MonoBehaviour
 
         for(int i = 0; i < spawns; i++)
         {
-            Debug.Log(spawnedDarkness.Count);
-
             if (spawnedDarkness.Count > maxAllowedDarkness)
             {
-                Debug.Log("Max Spawn Reached");
+                //Debug.Log("Max Spawn Reached");
+                break;
             }
 
             float angle = Random.Range(-spawnArcDegrees / 2, spawnArcDegrees / 2);
@@ -148,16 +147,26 @@ public class DarknessManager : MonoBehaviour
     {
         yield return StartCoroutine(AninamateParticleRotation());
         yield return StartCoroutine(AnimatePreSwitch());
+
         // switch room
 
         // cleanup 
+        foreach (GameObject d in spawnedDarkness)
+        {
+            Destroy(d);
+        }
         foreach (GameObject rotP in rotatingParticles)
         {
             Destroy(rotP);
         }
 
+        GetComponent<SwitchManager>().SwitchObjects();
+
+        yield return new WaitForSeconds(0.01f);
+
         yield return StartCoroutine(AnimateAfterSwitch()); // back to normal
     }
+
     IEnumerator AnimatePreSwitch()
     {
         float initalCameraFOV = camera.fieldOfView;
