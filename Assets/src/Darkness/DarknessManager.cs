@@ -59,6 +59,9 @@ public class DarknessManager : MonoBehaviour
     List<GameObject> rotatingParticles;
     List<GameObject> spawnedDarkness;
     GameObject[] generators;
+    AudioSource[] sfxs;
+
+    public Player p;
 
     float difficulty = 1;
     float maxEnergy;
@@ -71,7 +74,7 @@ public class DarknessManager : MonoBehaviour
  
     void Start() 
     {
-        mapCenter = new Vector3(0, 0, 0); // temporary
+        sfxs = GetComponents<AudioSource>();
         Init();
     }
 
@@ -110,7 +113,7 @@ public class DarknessManager : MonoBehaviour
         // attack to player
         if (timeToPlayerAttack <= 0)
         {
-            StartCoroutine(AttackPlayer());
+            //StartCoroutine(AttackPlayer());
             timeToPlayerAttack = timeBetweenPlayerAttacks;
         }
     }
@@ -132,7 +135,7 @@ public class DarknessManager : MonoBehaviour
         int spawns = Random.Range(1, maxSpawn + 1);
         Vector2 spawnDir = (gen.transform.position - mapCenter).normalized;  
 
-        for(int i = 0; i < spawns; i++)
+        for(int i = 0; i < spawns * difficulty; i++)
         {
             float angle = Random.Range(-spawnArcDegrees / 2, spawnArcDegrees / 2);
 
@@ -146,18 +149,10 @@ public class DarknessManager : MonoBehaviour
         }
     }
 
-    IEnumerator AttackPlayer()
-    {
-        PAAnimating = true;
-        yield return null;
-        PAAnimating = false;
-
-    }
-
     IEnumerator RoomSwitch()
     {
         RSAnimating = true;
-
+        sfxs[2].Play();
         yield return StartCoroutine(AninamateParticleRotation());
         yield return StartCoroutine(AnimatePreSwitch());
 
@@ -171,6 +166,12 @@ public class DarknessManager : MonoBehaviour
             Destroy(rotP);
         }
 
+        if(!p.Hidden()) 
+        {
+            Debug.Log("Difficulty Increased");
+            difficulty *= 2; 
+        }
+
         // switch room
         GetComponent<SwitchManager>().SwitchObjects();
 
@@ -179,6 +180,7 @@ public class DarknessManager : MonoBehaviour
         yield return StartCoroutine(AnimateAfterSwitch()); // back to normal
 
         RSAnimating = false;
+        sfxs[2].Stop();
     }
 
     IEnumerator AnimatePreSwitch()
@@ -211,7 +213,7 @@ public class DarknessManager : MonoBehaviour
 
         while (time < blackoutDuration / 2) // shorter revert black out
         {
-            float a = Mathf.Lerp(255, 0, blackoutCurve.Evaluate(time / blackoutDuration));
+            float a = Mathf.Lerp(150, 0, blackoutCurve.Evaluate(time / blackoutDuration));
             blackout.color = new Color(blackout.color.r, blackout.color.g, blackout.color.b, a);
             time += Time.unscaledDeltaTime;
             yield return null;
@@ -278,6 +280,10 @@ public class DarknessManager : MonoBehaviour
         return totalEnergy;
     }
 
+    public void IncreaseDifficulty()
+    {
+        difficulty *= 2;
+    }
     public float CalculateDoomPercentage()
     {
         return CalculateTotalEnergy() / maxEnergy;
