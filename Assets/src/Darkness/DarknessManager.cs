@@ -51,8 +51,6 @@ public class DarknessManager : MonoBehaviour
     public int maxSpawn = 3;
     [Range(1, 360)]
     public float spawnArcDegrees = 60;
-    [Min(0)]
-    public int maxAllowedDarkness = 10;
 
     public Vector3 mapCenter;
     public GameObject darknessPrefab;
@@ -62,7 +60,6 @@ public class DarknessManager : MonoBehaviour
     List<GameObject> spawnedDarkness;
     GameObject[] generators;
 
-    float doomMeter = 1;
     float difficulty = 1;
     float maxEnergy;
 
@@ -73,7 +70,6 @@ public class DarknessManager : MonoBehaviour
     {
         mapCenter = new Vector3(0, 0, 0); // temporary
         Init();
-        StartCoroutine(RoomSwitch()); // tem
     }
 
     void Update()
@@ -125,12 +121,6 @@ public class DarknessManager : MonoBehaviour
 
         for(int i = 0; i < spawns; i++)
         {
-            if (spawnedDarkness.Count > maxAllowedDarkness)
-            {
-                //Debug.Log("Max Spawn Reached");
-                break;
-            }
-
             float angle = Random.Range(-spawnArcDegrees / 2, spawnArcDegrees / 2);
 
             Vector2 spawnPos = RotateVector(spawnDir, angle) * spawnRadius;
