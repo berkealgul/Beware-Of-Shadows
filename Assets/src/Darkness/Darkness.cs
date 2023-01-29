@@ -88,7 +88,7 @@ public class Darkness : MonoBehaviour
     void ExecuteDestroy()
     {
         //Debug.Log("Destroyed");
-        //sfx.Play();
+        sfx.Play();
         Destroy(gameObject);
     }
 
