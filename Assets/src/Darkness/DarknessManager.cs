@@ -66,6 +66,8 @@ public class DarknessManager : MonoBehaviour
     bool active = false;
     bool RSAnimating = false;
     bool PAAnimating = false;
+
+    bool specialAttack = false;
  
     void Start() 
     {
@@ -80,10 +82,14 @@ public class DarknessManager : MonoBehaviour
         timeToGenAttack -= Time.deltaTime;
 
         if(!PAAnimating)
-            timeToPlayerAttack -= Time.deltaTime; 
+        {
+            timeToPlayerAttack -= Time.deltaTime;
+        }
 
         if(!RSAnimating)
+        {
             timeToRoomSwitch -= Time.deltaTime;
+        }    
 
         // switch room
         if(timeToRoomSwitch <= 0)
@@ -142,17 +148,18 @@ public class DarknessManager : MonoBehaviour
 
     IEnumerator AttackPlayer()
     {
-
+        PAAnimating = true;
         yield return null;
+        PAAnimating = false;
 
     }
 
     IEnumerator RoomSwitch()
     {
+        RSAnimating = true;
+
         yield return StartCoroutine(AninamateParticleRotation());
         yield return StartCoroutine(AnimatePreSwitch());
-
-        // switch room
 
         // cleanup 
         foreach (GameObject d in spawnedDarkness)
@@ -164,11 +171,14 @@ public class DarknessManager : MonoBehaviour
             Destroy(rotP);
         }
 
+        // switch room
         GetComponent<SwitchManager>().SwitchObjects();
 
         yield return new WaitForSeconds(0.01f);
 
         yield return StartCoroutine(AnimateAfterSwitch()); // back to normal
+
+        RSAnimating = false;
     }
 
     IEnumerator AnimatePreSwitch()
@@ -273,6 +283,7 @@ public class DarknessManager : MonoBehaviour
         return CalculateTotalEnergy() / maxEnergy;
     }
 
+    public bool isAttackingPlayer() { return specialAttack; }
     public void Activate() { active = true; }
     public void Deactivate() { active = false; }
 }
