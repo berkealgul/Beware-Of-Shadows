@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
         dm = GetComponent<DarknessManager>();
         pb = doomBar.GetComponent<ProgressBar>();
         tmt = timeText.GetComponent<TMP_Text>();

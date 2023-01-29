@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Switcher : MonoBehaviour
 {
-    public Vector2 targetPos;
-    
+    public List<Vector2> targetPoses;
+
+    int idx = 0;
+
+    void Start()
+    {
+        targetPoses.Add(transform.position);    
+    }
+
     public void SwitchPos()
     {
-        transform.position = targetPos;
+        transform.position = targetPoses[idx];
+        idx = (idx + 1) % targetPoses.Count;
     }
 }
