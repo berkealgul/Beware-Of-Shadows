@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     enum DIR { LEFT, RIGHT, UP, DOWN };
 
     DIR dir;
+    bool hidden;
+    GameObject crate;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
     {
         timeToInteract = 0;
         dir = DIR.RIGHT;
+        hidden = false;
     }
 
     void Update()
@@ -34,6 +37,9 @@ public class Player : MonoBehaviour
         {
             Interact();
         }
+
+        // dont update direction if hidden
+        if(hidden) { return; }
 
         if (Input.GetAxisRaw("Horizontal") == 1)
         {
@@ -80,6 +86,12 @@ public class Player : MonoBehaviour
 
         timeToInteract = delayToInteract;
 
+        if(hidden)
+        {
+            Reveal();
+            return;
+        }
+
         Vector2 dirV = new Vector2(0, 0);
 
         switch(dir)
@@ -109,8 +121,33 @@ public class Player : MonoBehaviour
 
             if (c.collider.tag == "Crate")
             {
-                Debug.Log("Hide");
+                Hide(c.collider.gameObject);
             }
         }
     }
+
+    void Hide(GameObject crate_)
+    {
+        crate = crate_;
+        GetComponent<PlayerMovementComponent>().Freeze(true); //freeze player
+        GetComponent<SpriteRenderer>().enabled = false; //disable rendering of player
+        transform.GetChild(0).GetComponent<FlashlightComponent>().Deactivate(); //disable flashlight
+        crate.GetComponent<Crate>().SetSpriteHasPlayer(); // change crate sprite
+        hidden = true;
+    }
+    
+    // Inverse of Hide()
+    void Reveal()
+    {
+        GetComponent<PlayerMovementComponent>().Freeze(false);
+        GetComponent<SpriteRenderer>().enabled = true;
+        transform.GetChild(0).GetComponent<FlashlightComponent>().Activate();
+        crate.GetComponent<Crate>().SetSpriteNormal();
+        hidden = false;
+    }
+
+    public void SetHidden(bool h) { hidden = h; }
+
+    public bool Hidden() { return hidden; }
+
 }

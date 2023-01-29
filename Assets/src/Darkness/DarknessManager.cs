@@ -51,13 +51,15 @@ public class DarknessManager : MonoBehaviour
     public int maxSpawn = 3;
     [Range(1, 360)]
     public float spawnArcDegrees = 60;
+    [Min(0)]
+    public int maxAllowedDarkness = 10;
 
     public Vector3 mapCenter;
-
     public GameObject darknessPrefab;
 
     // private field
     List<GameObject> rotatingParticles;
+    List<GameObject> spawnedDarkness;
     GameObject[] generators;
 
     float doomMeter = 1;
@@ -108,6 +110,7 @@ public class DarknessManager : MonoBehaviour
     {
         generators = GameObject.FindGameObjectsWithTag("Generator");
         rotatingParticles = new List<GameObject>();
+        spawnedDarkness = new List<GameObject>();
         timeToGenAttack = timeBetweenGenAttacks;
         timeToPlayerAttack = timeBetweenPlayerAttacks;
         timeToRoomSwitch = timeBetweenRoomSwitch;
@@ -122,6 +125,10 @@ public class DarknessManager : MonoBehaviour
 
         for(int i = 0; i < spawns; i++)
         {
+            Debug.Log(spawnedDarkness.Count);
+
+            //if (spawnedDarkness.Count)
+
             float angle = Random.Range(-spawnArcDegrees / 2, spawnArcDegrees / 2);
 
             Vector2 spawnPos = RotateVector(spawnDir, angle) * spawnRadius;
@@ -129,6 +136,8 @@ public class DarknessManager : MonoBehaviour
 
             GameObject instance = Instantiate(darknessPrefab, spawnPos, q);
             instance.GetComponent<Darkness>().SetTarget(gen);
+
+            spawnedDarkness.Add(instance);
         }
     }
 
