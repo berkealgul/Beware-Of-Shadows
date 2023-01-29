@@ -8,9 +8,9 @@ public class DarknessManager : MonoBehaviour
     [Header("Time Wawes")]
     // seconds
     [Min(1)]
-    public float timeBetweenPlayerAttacks = 1;
+    public float timeBetweenPlayerAttacks = 60;
     [Min(1)]
-    public float timeBetweenGenAttacks = 20;
+    public float timeBetweenGenAttacks = 5;
     [Min(10)]
     public float timeBetweenRoomSwitch = 50;
 
@@ -64,7 +64,8 @@ public class DarknessManager : MonoBehaviour
     float maxEnergy;
 
     bool active = false;
-
+    bool RSAnimating = false;
+    bool PAAnimating = false;
  
     void Start() 
     {
@@ -77,14 +78,19 @@ public class DarknessManager : MonoBehaviour
         if(!active) { return; }
 
         timeToGenAttack -= Time.deltaTime;
-        timeToPlayerAttack -= Time.deltaTime; 
-        timeToRoomSwitch -= Time.deltaTime;
+
+        if(!PAAnimating)
+            timeToPlayerAttack -= Time.deltaTime; 
+
+        if(!RSAnimating)
+            timeToRoomSwitch -= Time.deltaTime;
 
         // switch room
         if(timeToRoomSwitch <= 0)
         {
             StartCoroutine(RoomSwitch());
             timeToRoomSwitch = timeBetweenRoomSwitch;
+
         }
 
         // attack to generators
@@ -98,6 +104,7 @@ public class DarknessManager : MonoBehaviour
         // attack to player
         if (timeToPlayerAttack <= 0)
         {
+            StartCoroutine(AttackPlayer());
             timeToPlayerAttack = timeBetweenPlayerAttacks;
         }
     }
@@ -131,6 +138,13 @@ public class DarknessManager : MonoBehaviour
 
             spawnedDarkness.Add(instance);
         }
+    }
+
+    IEnumerator AttackPlayer()
+    {
+
+        yield return null;
+
     }
 
     IEnumerator RoomSwitch()

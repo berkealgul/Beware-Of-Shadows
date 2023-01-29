@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
     public float timeScale = 1;
     [Min(60)]
     public float totalPlayingTime = 600;
-    [Min(1)]
-    public int virtualPlayingHours = 6; 
 
     [Header("UI")]
     public GameObject doomBar;
@@ -61,12 +59,10 @@ public class GameManager : MonoBehaviour
 
     String GetTimeString()
     {
-        int virSecs = (int)(playingTime * ((virtualPlayingHours*3600) / playingTime));
+        int virMins = (int)playingTime / 60;
+        int virSecs = (int)playingTime % 60;
 
-        int virHours = virSecs / 3600;
-        int virMins = (virSecs % 3600) / 60;
-
-        return virHours.ToString() + ":" + virMins.ToString() + " AM"; 
+        return virMins.ToString() + " : " + virSecs.ToString().PadLeft(2, '0');
     }
 
     bool Lose() 
