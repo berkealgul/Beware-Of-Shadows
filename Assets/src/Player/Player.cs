@@ -7,7 +7,13 @@ public class Player : MonoBehaviour
     [Min(0)]
     public float delayToInteract = 1;
 
+    public Sprite[] sprites;
+
     float timeToInteract;
+
+    enum DIR { LEFT, RIGHT, UP, DOWN };
+
+    DIR dir;
 
     void Start()
     {
@@ -17,6 +23,7 @@ public class Player : MonoBehaviour
     void Init()
     {
         timeToInteract = 0;
+        dir = DIR.RIGHT;
     }
 
     void Update()
@@ -28,6 +35,43 @@ public class Player : MonoBehaviour
             Interact();
         }
 
+        if (Input.GetAxisRaw("Horizontal") == 1)
+        {
+            dir = DIR.RIGHT;
+            SetRotation(0);
+            UpdateSprite();
+        }
+        else if (Input.GetAxisRaw("Horizontal") == -1)
+        {
+            dir = DIR.LEFT;
+            SetRotation(180);
+            UpdateSprite();
+        }
+        else if (Input.GetAxisRaw("Vertical") == 1)
+        {
+            dir = DIR.UP;
+            SetRotation(90);
+            UpdateSprite();
+        }
+        else if(Input.GetAxisRaw("Vertical") == -1)
+        {
+            dir = DIR.DOWN;
+            SetRotation(270);
+            UpdateSprite();
+        }
+    }
+
+    void SetRotation(float degrees)
+    {
+        Transform t = transform.GetChild(0);
+        float x = t.rotation.eulerAngles.x;
+        float y = t.rotation.eulerAngles.y;
+        t.rotation = Quaternion.Euler(x, y, degrees);
+    }
+
+    void UpdateSprite()
+    {
+        GetComponent<SpriteRenderer>().sprite = sprites[(int)dir];
     }
 
     void Interact()
@@ -36,8 +80,26 @@ public class Player : MonoBehaviour
 
         timeToInteract = delayToInteract;
 
-        var casts = Physics2D.RaycastAll(gameObject.transform.position, new Vector2(1, 0), 1);
-        //Debug.DrawRay(gameObject.transform.position, new Vector2(1, 0), Color.red, 0.2f);
+        Vector2 dirV = new Vector2(0, 0);
+
+        switch(dir)
+        {
+            case DIR.RIGHT:
+                dirV = new Vector2(1, 0);
+                break;
+            case DIR.LEFT:
+                dirV = new Vector2(-1, 0);
+                break;
+            case DIR.UP:
+                dirV = new Vector2(0, 1);
+                break;
+            case DIR.DOWN:
+                dirV = new Vector2(0, -1);
+                break;
+        }
+        
+        var casts = Physics2D.RaycastAll(gameObject.transform.position, dirV, 1);
+        //Debug.DrawRay(gameObject.transform.position, dirV, Color.red, 0.2f);
         foreach (var c in casts)
         {
             if (c.collider.tag == "Generator")

@@ -48,7 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c6051fce45fa64c940a4a952e38130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  v: 5
+  damageDelay: 0.1
+  escapeDelay: 1
+  v: 2
+  energySteal: 5
+  hp: 100
 --- !u!212 &-7331965494286806229
 SpriteRenderer:
   m_ObjectHideFlags: 0

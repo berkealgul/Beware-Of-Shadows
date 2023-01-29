@@ -52,6 +52,8 @@ public class DarknessManager : MonoBehaviour
     [Range(1, 360)]
     public float spawnArcDegrees = 60;
 
+    public Vector3 mapCenter;
+
     public GameObject darknessPrefab;
 
     // private field
@@ -64,8 +66,7 @@ public class DarknessManager : MonoBehaviour
 
     bool active = false;
 
-    Vector3 mapCenter;
-
+ 
     void Start() 
     {
         mapCenter = new Vector3(0, 0, 0); // temporary
@@ -173,7 +174,7 @@ public class DarknessManager : MonoBehaviour
         float initalCameraFOV = camera.fieldOfView;
         float time = 0;
 
-        while (time < blackoutDuration)
+        while (time < blackoutDuration / 2) // shorter revert black out
         {
             float a = Mathf.Lerp(255, 0, blackoutCurve.Evaluate(time / blackoutDuration));
             blackout.color = new Color(blackout.color.r, blackout.color.g, blackout.color.b, a);
@@ -185,7 +186,7 @@ public class DarknessManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        time = 0;
+        time = 0; 
 
         while (time < zoomDuration)
         {

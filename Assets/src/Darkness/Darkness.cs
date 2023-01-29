@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Darkness : MonoBehaviour
 {
-    enum State { IDLE, ATTACK, REACH, RETURN, DESTROY };
+    enum State { IDLE, ATTACK, REACH, RETURN, DESTROY, ESCAPE };
 
     static readonly float distanceToReach = 0.01f; // meters
 
     [Min(0)]
-    public float damageDelay = 0.1f;
+    public float damageDelay = 0.2f;
+    [Min(0)]
+    public float escapeDelay = 1f;
     [Min(0)]
     public float v = 5;
     [Min(0)]
@@ -25,6 +27,7 @@ public class Darkness : MonoBehaviour
 
     bool attacked = false;
     float timeToDmg = 0;
+    float timeToEscape = 0;
 
     private void Awake()
     {
@@ -49,6 +52,9 @@ public class Darkness : MonoBehaviour
             case State.DESTROY:
                 ExecuteDestroy();
                 break;
+            case State.ESCAPE:
+                ExecuteEscape();
+                break;
         }
     }
 
@@ -66,7 +72,9 @@ public class Darkness : MonoBehaviour
         if (timeToDmg > 0) { return; }
 
         timeToDmg = damageDelay;
+        timeToEscape = escapeDelay;
         hp -= dmg;
+        state = State.ESCAPE;
 
         if(hp <= 0)
         {
@@ -84,6 +92,23 @@ public class Darkness : MonoBehaviour
     {
         targetPos = spawnPos;
         state = State.REACH;
+    }
+
+    void ExecuteEscape()
+    {
+        timeToEscape -= Time.unscaledDeltaTime;
+
+        if(timeToEscape <= 0)
+        {
+            state = State.REACH;
+            return;
+        }
+
+        Vector3 dis = spawnPos - transform.position;
+        transform.position += dis.normalized * v * Time.unscaledDeltaTime;
+
+        // kill enemies earlier
+        if (dis.magnitude <= distanceToReach * 3) { state = State.DESTROY; }
     }
 
     void ExecuteReach()
