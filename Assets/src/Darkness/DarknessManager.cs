@@ -278,6 +278,10 @@ public class DarknessManager : MonoBehaviour
         return totalEnergy;
     }
 
+    public void IncreaseDifficulty()
+    {
+        difficulty *= 2;
+    }
     public float CalculateDoomPercentage()
     {
         return CalculateTotalEnergy() / maxEnergy;

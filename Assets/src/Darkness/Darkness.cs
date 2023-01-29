@@ -25,6 +25,8 @@ public class Darkness : MonoBehaviour
     GameObject targetObject;
     State state;
 
+    AudioSource sfx;
+
     bool attacked = false;
     float timeToDmg = 0;
     float timeToEscape = 0;
@@ -32,6 +34,7 @@ public class Darkness : MonoBehaviour
     private void Awake()
     {
         spawnPos = gameObject.transform.position;
+        sfx = GetComponent<AudioSource>();
         state = State.IDLE;
         attacked = false;
     }
@@ -85,6 +88,7 @@ public class Darkness : MonoBehaviour
     void ExecuteDestroy()
     {
         //Debug.Log("Destroyed");
+        //sfx.Play();
         Destroy(gameObject);
     }
 

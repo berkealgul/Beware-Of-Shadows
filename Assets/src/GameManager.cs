@@ -23,17 +23,17 @@ public class GameManager : MonoBehaviour
     TMP_Text tmt;
     TMP_Text st;
 
-    AudioSource music_fs;
-    AudioSource music_ss;
+    AudioSource[] musics; 
 
     void Start()
     {
-
+        musics = GetComponents<AudioSource>();
         dm = GetComponent<DarknessManager>();
         pb = doomBar.GetComponent<ProgressBar>();
         tmt = timeText.GetComponent<TMP_Text>();
         st = statusText.GetComponent<TMP_Text>();
         st.enabled = false;
+        musics[0].Play();
         Time.timeScale = timeScale;
     }
 
@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour
 
         //Debug.Log(playingTime);
         //Debug.Log(mins);
+        if(playingTime / totalPlayingTime > 0.5)
+        {
+            Phrase2();
+        }
 
         if(Lose())
         {
@@ -59,6 +63,13 @@ public class GameManager : MonoBehaviour
            st.text = "Win";
            st.enabled = true;
         }
+    }
+
+    void Phrase2()
+    {
+        musics[0].Stop();
+        musics[1].Play();
+        dm.IncreaseDifficulty();
     }
 
     String GetTimeString()

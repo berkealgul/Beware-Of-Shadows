@@ -17,9 +17,13 @@ public class Player : MonoBehaviour
     bool hidden;
     GameObject crate;
 
+    // gen-fix  hide move
+    AudioSource[] sfxs;
+
     void Start()
     {
         Init();
+        sfxs = GetComponents<AudioSource>();
     }
 
     void Init()
@@ -117,11 +121,13 @@ public class Player : MonoBehaviour
             if (c.collider.tag == "Generator")
             {
                 c.collider.GetComponent<Generator>().Fix();
+                sfxs[0].Play();
             }
 
             if (c.collider.tag == "Crate")
             {
                 Hide(c.collider.gameObject);
+                sfxs[1].Play();
             }
         }
     }
@@ -144,6 +150,11 @@ public class Player : MonoBehaviour
         transform.GetChild(0).GetComponent<FlashlightComponent>().Activate();
         crate.GetComponent<Crate>().SetSpriteNormal();
         hidden = false;
+    }
+
+    public void PlayWalkSound()
+    {
+        sfxs[2].Play();
     }
 
     public void SetHidden(bool h) { hidden = h; }

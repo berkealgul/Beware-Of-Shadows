@@ -18,6 +18,13 @@ public class PlayerMovementComponent : MonoBehaviour
     float y_dir = 0;
     float anim_dir = 1;
 
+    Player p;
+
+    private void Start()
+    {
+        p = GetComponent<Player>();
+    }
+
     void Update()
     {
         if(!canMove) { return; }
@@ -53,6 +60,8 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if (CanWalk())
         {
+            p.PlayWalkSound();
+            
             canMove = false;
             anim_dir = 1;
 

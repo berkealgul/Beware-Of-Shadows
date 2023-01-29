@@ -7,7 +7,7 @@ public class Generator : MonoBehaviour
     public Sprite[] sprites;
 
     float maxEnergy = 100;
-    float energyDecay = 1; // per second;
+    float energyDecay = 2; // per second;
     float fixEnergy = 20;
     float energy;
 
