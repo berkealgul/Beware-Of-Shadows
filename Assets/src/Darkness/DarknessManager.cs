@@ -169,7 +169,7 @@ public class DarknessManager : MonoBehaviour
         if(!p.Hidden()) 
         {
             Debug.Log("Difficulty Increased");
-            difficulty *= 2; 
+            difficulty *= 4; 
         }
 
         // switch room
