@@ -295,7 +295,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: -3.5, y: 6.5}
+  - {x: 2.5, y: 0.5}
 --- !u!61 &33454403
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1081,8 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses:
-  - {x: 0, y: 0}
+  targetPoses: []
 --- !u!61 &270823333
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1234,7 +1235,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: -1.5, y: 6.5}
+  - {x: -0.5, y: 0.5}
 --- !u!114 &303331192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4469,7 +4472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: -4.5, y: 0.5}
+  - {x: -2.5, y: 1.5}
 --- !u!1 &788055369
 GameObject:
   m_ObjectHideFlags: 0
@@ -4599,6 +4604,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &879344616 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 879344616, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+  m_PrefabInstance: {fileID: 169383958}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &934294548
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,8 +5087,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   movementLength: 1
-  movementDuration: 0.2
-  blockTags: []
+  movementDuration: 0.15
+  blockTags:
+  - Wall
+  - Generator
+  - Crate
 --- !u!61 &1200166414
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5407,7 +5420,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: 1.5, y: 3.5}
+  - {x: -5.5, y: 1.5}
 --- !u!114 &1382549671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5810,7 +5825,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: 2.5, y: 0.5}
+  - {x: -4.5, y: 5.5}
 --- !u!61 &1573141568
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5962,7 +5979,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: 2.5, y: 6.5}
+  - {x: 3.5, y: 3.5}
 --- !u!114 &1636885655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6470,7 +6489,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: -2.5, y: 4.5}
+  - {x: -1.5, y: 6.5}
 --- !u!114 &1907351487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6814,7 +6835,7 @@ MonoBehaviour:
   totalPlayingTime: 600
   doomBar: {fileID: 551021866}
   timeText: {fileID: 1204830398}
-  statusText: {fileID: 0}
+  statusText: {fileID: 879344616}
 --- !u!114 &1984894848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6967,7 +6988,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162cfd4a142ebd941ac4f800bb2f8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoses: []
+  targetPoses:
+  - {x: -2.5, y: 1.5}
+  - {x: -1.5, y: 3.5}
 --- !u!1 &2037289682
 GameObject:
   m_ObjectHideFlags: 0
