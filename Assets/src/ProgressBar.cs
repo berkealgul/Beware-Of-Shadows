@@ -6,21 +6,27 @@ using UnityEngine.UI;
 [ExecuteInEditMode()]
 public class ProgressBar : MonoBehaviour
 {
-    public int maximum;
-    public int current;
     public Image mask;
 
+    int maximum;
+    int current;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetMax(int m)
     {
-        
+        maximum = m;
+        current = maximum;
+        GetCurrentFill();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetCurrent(int c)
     {
+        current = c;
         GetCurrentFill();
+    }
+
+    public void SetPer(float p)
+    {
+        mask.fillAmount = p;
     }
 
     void GetCurrentFill()

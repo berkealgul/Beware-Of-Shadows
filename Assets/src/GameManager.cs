@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 
 public class GameManager : MonoBehaviour
@@ -7,44 +8,65 @@ public class GameManager : MonoBehaviour
     [Range(1, 10)]
     public float timeScale = 1;
     [Min(60)]
-    public float totalPlayingTime = 600; 
+    public float totalPlayingTime = 600;
+    [Min(1)]
+    public int virtualPlayingHours = 6; 
+
+    [Header("UI")]
+    public GameObject doomBar;
+    public GameObject timeText;
+    public GameObject statusText;
 
     float playingTime;
     float doomPer;
 
     DarknessManager dm;
+    ProgressBar pb;
+    TMP_Text tmt;
+    TMP_Text st;
 
     void Start()
     {
         dm = GetComponent<DarknessManager>();
+        pb = doomBar.GetComponent<ProgressBar>();
+        tmt = timeText.GetComponent<TMP_Text>();
+        st = statusText.GetComponent<TMP_Text>();
+        st.enabled = false;
+        Time.timeScale = timeScale;
     }
 
     void Update()
     {
         doomPer = dm.CalculateDoomPercentage();
-
         playingTime += Time.deltaTime;
 
-        int mins = (int)playingTime / 60;
+        pb.SetPer(doomPer);
+        tmt.text = GetTimeString();
 
         //Debug.Log(playingTime);
         //Debug.Log(mins);
 
         if(Lose())
         {
-            //Debug.Log("LOSE");
+            st.text = "LOSE";
+            st.enabled = true;
         }
         
         if(Win())
         {
-           // Debug.Log("Win");
+           st.text = "Win";
+           st.enabled = true;
         }
-        else
-        {
-            //Debug.Log(doomPer);
-        }
+    }
 
-        Time.timeScale = timeScale; // will be carried to Start()
+    String GetTimeString()
+    {
+        int virSecs = (int)(playingTime * ((virtualPlayingHours*3600) / playingTime));
+
+        int virHours = virSecs / 3600;
+        int virMins = (virSecs % 3600) / 60;
+
+        return virHours.ToString() + ":" + virMins.ToString() + " AM"; 
     }
 
     bool Lose() 
