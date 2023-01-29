@@ -803,9 +803,37 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 879344618, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_text
+      value: '
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 879344618, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a7111c0cd07e9f749aad721dd9b0b240, type: 2}
+    - target: {fileID: 879344618, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6811585283763633881, guid: a7111c0cd07e9f749aad721dd9b0b240, type: 2}
+    - target: {fileID: 879344618, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1204830400, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_text
+      value: '0 : 00
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1204830400, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a7111c0cd07e9f749aad721dd9b0b240, type: 2}
+    - target: {fileID: 1204830400, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -6811585283763633881, guid: a7111c0cd07e9f749aad721dd9b0b240, type: 2}
     - target: {fileID: 1204830400, guid: 1b7a113974c9d21409f372e42ab1822e, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
@@ -1615,7 +1643,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00b7f0b28be86a740b8a528e9a289d96, type: 3}
   m_Name: 
