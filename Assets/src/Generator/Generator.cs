@@ -22,7 +22,6 @@ public class Generator : MonoBehaviour
     {
         energy = Mathf.Max(energy - Time.unscaledDeltaTime*energyDecay, 0);
         UpdateSprite();
-        Debug.Log(energy);
     }
 
     void UpdateSprite()

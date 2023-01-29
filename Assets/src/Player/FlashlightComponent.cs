@@ -19,6 +19,14 @@ public class FlashlightComponent : MonoBehaviour
         }
     }
 
-    public void Activate() { active = true; }
-    public void Deactivate() { active = false; }
+    public void Activate() 
+    { 
+        active = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+    public void Deactivate() 
+    { 
+        active = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+    }
 }
