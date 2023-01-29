@@ -127,7 +127,10 @@ public class DarknessManager : MonoBehaviour
         {
             Debug.Log(spawnedDarkness.Count);
 
-            //if (spawnedDarkness.Count)
+            if (spawnedDarkness.Count > maxAllowedDarkness)
+            {
+                Debug.Log("Max Spawn Reached");
+            }
 
             float angle = Random.Range(-spawnArcDegrees / 2, spawnArcDegrees / 2);
 
