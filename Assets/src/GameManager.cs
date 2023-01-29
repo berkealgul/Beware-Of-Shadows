@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     TMP_Text tmt;
     TMP_Text st;
 
+    AudioSource music_fs;
+    AudioSource music_ss;
+
     void Start()
     {
         dm = GetComponent<DarknessManager>();
