@@ -77,4 +77,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
         canMove = true;
     }
+
+    // freezes player if given bool is true
+    public void Freeze(bool f) { canMove = !f; }
 }
