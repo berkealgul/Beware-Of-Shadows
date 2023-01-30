@@ -88,7 +88,7 @@ public class Darkness : MonoBehaviour
     void ExecuteDestroy()
     {
         //Debug.Log("Destroyed");
-        sfx.Play();
+        
         Destroy(gameObject);
     }
 
@@ -136,6 +136,7 @@ public class Darkness : MonoBehaviour
     {
         targetObject.GetComponent<Generator>().StealEnergy(energySteal);
         state = State.RETURN;
+        sfx.Play();
         attacked = true;
     }
 }
