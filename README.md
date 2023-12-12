@@ -1,6 +1,8 @@
 # Project-Bugiman
 Game project developed for FrostJam5 With Unity
 
+Watch [showcase](https://www.youtube.com/live/2Is2hHHCNBE?si=U0nUXjr6BIjbe6if&t=1248)
+
 **How to play**
 
 WASD to move and E to repair and hide
