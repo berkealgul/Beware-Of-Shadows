@@ -1,4 +1,4 @@
-# Project-Bugiman
+# Beware-Of-Shadows
 Game project developed for FrostJam5 With Unity
 
 Watch [showcase](https://www.youtube.com/live/2Is2hHHCNBE?si=U0nUXjr6BIjbe6if&t=1248)
